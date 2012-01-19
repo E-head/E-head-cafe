@@ -61,6 +61,7 @@ PMS.Menu = function(params) {
         hidden: !acl.isView('storage'),
         handler: function() {
             PMS.System.Layout.getTabPanel().add({
+                text: 'Склад',
                 iconCls: 'suppliers-icon',
                 xtype: 'PMS.Storage.Assets.Layout',
                 id: 'PMS.Storage.Assets.Layout'
