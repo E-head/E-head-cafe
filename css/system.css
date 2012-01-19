@@ -7,6 +7,14 @@
     width: 75px;
 }
 
+.arabika-logo {
+    background-image: url('../images/arabika.png');
+    background-repeat: no-repeat;
+    background-position: 0 5px;
+    height: 24px;
+    width: 24px;
+}
+
 .x-row-expired {
     background: #FFFF99;
 }

@@ -1,7 +1,7 @@
 Ext.ns('PMS');
 
 PMS.menuMessage = function() {
-    xlib.Msg.info('Модуль доступен в платных тарифах'); 
+    xlib.Msg.info('Модуль на стадии разработки'); 
 }
 
 PMS.Menu = function(params) {
@@ -29,33 +29,84 @@ PMS.Menu = function(params) {
 	        }
 	    }
 	}, ' ', ' ', ' ', ' ', ' ', {
-	    text: 'Архив заказов',
-	    iconCls: 'archive-icon',
+	    xtype: 'box',
+	    autoEl: {
+	        tag: 'div',
+	        style: 'cursor: pointer;',
+	        qtip: 'арабика.com',
+	        cls: 'arabika-logo'
+	    },
+	    listeners: {
+	        render: function(box) {
+	            box.el.on('click', function() {
+	                window.open('http://арабика.com/');
+	            })
+	        }
+	    }
+	}, ' ', ' ', '-', ' ', ' ', {
+	    text: 'Заказы',
+	    iconCls: 'orders-icon',
 	    hidden: !acl.isView('archive'),
-	    handler: function() {
+	    handler: PMS.menuMessage 
+        /*function() {
 	        PMS.System.Layout.getTabPanel().add({
 	            iconCls: 'archive-icon',
 	            xtype: 'PMS.Orders.Archive',
 	            id: 'PMS.Orders.Archive'
 	        });
-	    }
+	    }*/
 	}, {
-        text: 'Заказчики',
-        hidden: !acl.isView('customers'),
-	    iconCls: 'customers-icon',
+	    text: 'Склад',
+	    iconCls: 'suppliers-icon',
+        hidden: !acl.isView('storage'),
         handler: function() {
             PMS.System.Layout.getTabPanel().add({
-                title: 'Заказчики',
+                iconCls: 'suppliers-icon',
+                xtype: 'PMS.Storage.Assets.Layout',
+                id: 'PMS.Storage.Assets.Layout'
+            });
+        }
+    }, {
+        /*
+        text: 'Заявки на снабжение',
+        iconCls: 'suppliers-icon',
+        handler: PMS.menuMessage
+        handler: function() {
+            PMS.System.Layout.getTabPanel().add({
+                iconCls: 'suppliers-icon',
+                xtype: 'PMS.Storage.Requests.List',
+                id: 'PMS.Storage.Requests.List'
+            });
+        }
+	}, {
+        */
+	    text: 'Кадры',
+	    iconCls: 'customers-icon',
+        hidden: !acl.isView('staff'),
+        handler: function() {
+            PMS.System.Layout.getTabPanel().add({
                 iconCls: 'customers-icon',
-                entity: 'customers',
-                xtype: 'PMS.Customers.List',
-                id: 'PMS.Customers.List'
+                xtype: 'PMS.Staff.Layout',
+                id: 'PMS.Staff.Layout'
+            });
+        } 
+	}, {
+        text: 'Основные средства',
+        iconCls: 'archive-icon',
+        hidden: !acl.isView('admin'),
+        handler: function() {
+            PMS.System.Layout.getTabPanel().add({
+                iconCls: 'archive-icon',
+                xtype: 'PMS.FixedAssets.List',
+                id: 'PMS.FixedAssets.List'
             });
         }
 	}, {
 	    text: 'Планы',
 	    iconCls: 'prod_schd-icon',
 	    hidden: !acl.isView('orders'),
+        handler: PMS.menuMessage
+        /*
 	    menu: [{
 	        text: 'План производственных работ',
 	        iconCls: 'prod_schd-icon',
@@ -92,9 +143,12 @@ PMS.Menu = function(params) {
                 new PMS.Reports.Vacations();
             }
 	    }]
+        */
     }, {
 	    text: 'Отчёты',
 	    iconCls: 'prod_schd-icon',
+        handler: PMS.menuMessage
+        /*
         menu: [{
             text: 'Менеджеры',
             iconCls: 'work_schd-icon',
@@ -131,117 +185,8 @@ PMS.Menu = function(params) {
                  window.open(link('fixed-assets', 'report', 'index', {}, 'html'));
             }
         }]
-	}, '-', {
-	    text: 'Склад',
-	    iconCls: 'suppliers-icon',
-        hidden: !acl.isView('storage'),
-	    menu: [{
-            text: 'Основные средства',
-            iconCls: 'archive-icon',
-            hidden: !acl.isView('admin'),
-            handler: function() {
-                PMS.System.Layout.getTabPanel().add({
-                    iconCls: 'archive-icon',
-                    xtype: 'PMS.FixedAssets.List',
-                    id: 'PMS.FixedAssets.List'
-                });
-            }
-        }, {
-	        text: 'Наличие ТМЦ',
-	        iconCls: 'suppliers-icon',
-	        handler: function() {
-	            PMS.System.Layout.getTabPanel().add({
-	                iconCls: 'suppliers-icon',
-	                xtype: 'PMS.Storage.Assets.Layout',
-	                id: 'PMS.Storage.Assets.Layout'
-	            });
-	        }
-	    }, {
-	        text: 'Заявки на снабжение',
-	        iconCls: 'suppliers-icon',
-            handler: function() {
-	            PMS.System.Layout.getTabPanel().add({
-	                iconCls: 'suppliers-icon',
-	                xtype: 'PMS.Storage.Requests.List',
-	                id: 'PMS.Storage.Requests.List'
-	            });
-	        }
-	    }]
-	}, {
-	    text: 'Кадры',
-	    iconCls: 'customers-icon',
-        hidden: !acl.isView('staff'),
-        handler: function() {
-            PMS.System.Layout.getTabPanel().add({
-                iconCls: 'customers-icon',
-                xtype: 'PMS.Staff.Layout',
-                id: 'PMS.Staff.Layout'
-            });
-        } 
-	}, {
-	    text: 'Приказы и объявления',
-	    iconCls: 'work_schd-icon',
-        hidden: !acl.isView('notice'),
-        handler: function() {
-            PMS.System.Layout.getTabPanel().add({
-                iconCls: 'work_schd-icon',
-                xtype: 'PMS.Notice.List',
-                id: 'PMS.Notice.List'
-            });
-        } 
-	}, '-', {
-	    text: 'Мониторинг автотранспорта',
-	    iconCls: 'suppliers-icon',
-        hidden: !(acl.isView('map') && enableMap),
-        handler: function() {
-            var win = window.open(link('admin', 'map', 'open', {}, 'html'));
-            (function(){
-                win.location.href = 'http://my.gdemoi.ru/map.php';
-            }).defer(2000);
-        } 
-//	}, {
-//	    text: 'Принт-база',
-//	    iconCls: 'prod_schd-icon',
-//        hidden: !(enableMap),
-//        handler: function() {
-//            window.open('http://print.e-head.ru');
-//        } 
-	}, '->', {
-        tooltip: 'Информация о релизе',
-	    iconCls: 'info-icon',
-        handler: function() {
-            new Ext.Window({
-                title: 'Информация о релизе',
-                width: 600,
-                bodyStyle: {background: 'white'},
-                padding: 10,
-                height: 400,
-                modal: true,
-                autoScroll: true,
-                autoLoad: link('default', 'index', 'changes', {}, 'html')
-            }).show();
-        } 
-	}, {
-		text: 'Учебник',
-        iconCls: 'work_schd-icon',
-        handler: function() {
-			var url = 'http://e-head.ru/index.php/home/tutorial/tutorial-';
-			var role = 'director';
-			switch (roleId) {
-				case 3: 
-					role = 'manager';
-					break;
-				case 4: 
-				case 5: 
-					role = 'executor';
-					break;
-				case 7: 
-					role = 'bookkeeper';
-					break;
-			}
-            window.open(url + role);
-        }
-	}, {
+        */
+	}, ' ', ' ', '-', '->', {
 		text: 'Менеджер доступа',
 		iconCls: 'accounts_manager-icon',
 		hidden: !acl.isView('admin'),

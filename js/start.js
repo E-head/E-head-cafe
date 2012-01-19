@@ -94,14 +94,6 @@ Ext.onReady(function(){
             })
         });
         
-        PMS.OrdersTab = PMS.System.Layout.getTabPanel().add({
-            iconCls: 'orders-icon',
-            closable: false,
-            xtype: 'PMS.Orders.Layout',
-            id: 'PMS.Orders.Layout'
-        });
-        
-        /*
         
         PMS.System.Layout.getTabPanel().add({
         	iconCls: 'customers-icon',
@@ -109,6 +101,14 @@ Ext.onReady(function(){
                 id: 'PMS.Storage.Assets.Layout'
         });
         
+        /*
+        
+        PMS.OrdersTab = PMS.System.Layout.getTabPanel().add({
+            iconCls: 'orders-icon',
+            closable: false,
+            xtype: 'PMS.Orders.Layout',
+            id: 'PMS.Orders.Layout'
+        });
         
         PMS.System.Layout.getTabPanel().add({
         	iconCls: 'customers-icon',
