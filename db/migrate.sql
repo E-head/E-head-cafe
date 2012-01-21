@@ -1,0 +1,1 @@
+-- TODO: Delete the table `customers` (has relations with table `orders`)
