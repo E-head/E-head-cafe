@@ -90,10 +90,6 @@
         <script src="/js/PMS/FixedAssets/List.js"/>
         <script src="/js/PMS/FixedAssets/Files.js"/>
         <script src="/js/PMS/FixedAssets/Form.js"/>
-
-        <script src="/js/PMS/Customers/Combo.js"/>
-        <script src="/js/PMS/Customers/List.js"/>
-        <script src="/js/PMS/Customers/Form.js"/>
         
         <script src="/js/PMS/Storage/Assets/Tree.js"/>
         <script src="/js/PMS/Storage/Assets/List.js"/>
@@ -141,7 +137,6 @@
         <!-- Modules -->
         
         <script src="/js/PMS/menu.js"/>
-        <script src="/js/extensions.js"/>
         <script src="/js/start.js"/>
         
         <!-- localization files -->
