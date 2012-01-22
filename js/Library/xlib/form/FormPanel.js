@@ -18,7 +18,7 @@ xlib.form.FormPanel = Ext.extend(Ext.form.FormPanel, {
     
 	padding: '5px',
 	
-	markFieldsDirty: true,
+	markFieldsDirty: false,
 	
 	dirtyFieldClass: 'x-form-field-dirty',
 
