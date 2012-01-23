@@ -59,7 +59,7 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
         }, {
             width: 200,
             header: 'Сумма выручки за день',
-            dataIndex: 'summ_start'
+            dataIndex: 'summ_income'
         }, {
             width: 200,
             header: 'Сумма инкассации',
