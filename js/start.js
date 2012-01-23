@@ -93,30 +93,13 @@ Ext.onReady(function(){
                 enableMap: xlib.enableMap || false
             })
         });
-        
-        
-        PMS.System.Layout.getTabPanel().add({
-        	iconCls: 'customers-icon',
-                xtype: 'PMS.Storage.Assets.Layout',
-                id: 'PMS.Storage.Assets.Layout'
-        });
-        
-        /*
-        
+
         PMS.OrdersTab = PMS.System.Layout.getTabPanel().add({
             iconCls: 'orders-icon',
             closable: false,
-            xtype: 'PMS.Orders.Layout',
-            id: 'PMS.Orders.Layout'
+            xtype: 'PMS.Orderslog.List',
+            id: 'PMS.Orderslog.List'
         });
-        
-        PMS.System.Layout.getTabPanel().add({
-        	iconCls: 'customers-icon',
-                xtype: 'PMS.Staff.Layout',
-                id: 'PMS.Staff.Layout'
-        });
-        
-        */
         
         PMS.System.Layout.doLayout();
         

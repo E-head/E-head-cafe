@@ -44,17 +44,16 @@ PMS.Menu = function(params) {
 	        }
 	    }
 	}, ' ', ' ', '-', ' ', ' ', {
-	    text: 'Заказы',
+	    text: 'Выручка',
 	    iconCls: 'orders-icon',
-	    hidden: !acl.isView('archive'),
-	    handler: PMS.menuMessage 
-        /*function() {
+	    hidden: !acl.isView('orders'),
+	    handler: function() {
 	        PMS.System.Layout.getTabPanel().add({
 	            iconCls: 'archive-icon',
-	            xtype: 'PMS.Orders.Archive',
-	            id: 'PMS.Orders.Archive'
+	            xtype: 'PMS.Orderslog.List',
+	            id: 'PMS.Orderslog.List'
 	        });
-	    }*/
+	    }
 	}, {
 	    text: 'Склад',
 	    iconCls: 'suppliers-icon',
@@ -102,66 +101,24 @@ PMS.Menu = function(params) {
             });
         }
 	}, {
-	    text: 'Планы',
-	    iconCls: 'prod_schd-icon',
-	    hidden: !acl.isView('orders'),
-        handler: PMS.menuMessage
-        /*
-	    menu: [{
-	        text: 'План производственных работ',
-	        iconCls: 'prod_schd-icon',
-            hidden: !acl.isView('orders', 'production'),
-            handler: function() {
-	            window.open('/orders/report/schedule-production');
-	        }
-	    }, {
-	        text: 'План печатных работ',
-	        iconCls: 'prod_schd-icon',
-            hidden: !acl.isView('orders', 'print'),
-            handler: function() {
-	            window.open('/orders/report/schedule-print');
-	        }
-	    }, {
-	        text: 'План монтажных работ',
-	        iconCls: 'mount_schd-icon',
-            hidden: !acl.isView('orders', 'mount'),
-	        handler: function() {
-	            window.open('/orders/report/schedule-mount');
-	        }
-	    }, {
-	        text: 'Сводный план работ',
-	        iconCls: 'work_schd-icon',
-            hidden: !acl.isView('orders'),
-	        handler: function() {
-	            window.open('/orders/report/planning');
-	        }
-	    }, {
-	        text: 'План отпусков сотрудников',
-	        iconCls: 'work_schd-icon',
-            hidden: !acl.isView('orders'),
-	        handler: function() {
-                new PMS.Reports.Vacations();
-            }
-	    }]
-        */
-    }, {
 	    text: 'Отчёты',
 	    iconCls: 'prod_schd-icon',
-        handler: PMS.menuMessage
-        /*
         menu: [{
-            text: 'Менеджеры',
+            text: 'Выручка',
             iconCls: 'work_schd-icon',
             hidden: !acl.isView('reports'),
+            handler: PMS.menuMessage
+            /*
             handler: function() {
                 new PMS.Reports.Managers();
             }
+            */
         }, {
-            text: 'Клиенты',
+            text: 'Склад',
             iconCls: 'work_schd-icon',
-            hidden: !acl.isView('reports'),
+            hidden: !acl.isView('storage'),
             handler: function() {
-                new PMS.Reports.Customers();
+                 window.open(link('storage', 'report', 'index', {}, 'html'));
             }
         }, {
             text: 'Кадры',
@@ -171,13 +128,6 @@ PMS.Menu = function(params) {
                 new PMS.Reports.Staff();
             }
         }, {
-            text: 'Склад',
-            iconCls: 'work_schd-icon',
-            hidden: !acl.isView('storage'),
-            handler: function() {
-                 window.open(link('storage', 'report', 'index', {}, 'html'));
-            }
-        }, {
             text: 'Основные средства',
             iconCls: 'work_schd-icon',
             hidden: !acl.isView('admin'),
@@ -185,7 +135,6 @@ PMS.Menu = function(params) {
                  window.open(link('fixed-assets', 'report', 'index', {}, 'html'));
             }
         }]
-        */
 	}, ' ', ' ', '-', '->', {
 		text: 'Менеджер доступа',
 		iconCls: 'accounts_manager-icon',

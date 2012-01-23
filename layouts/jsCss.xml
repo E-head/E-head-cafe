@@ -75,17 +75,8 @@
         
         <!-- Modules -->
         
-        <script src="/js/PMS/Orders/Layout.js"/>
-        <script src="/js/PMS/Orders/List.js"/>
-        <script src="/js/PMS/Orders/Archive.js"/>
-        <script src="/js/PMS/Orders/Info.js"/>
-        <script src="/js/PMS/Orders/Files.js"/>
-        <script src="/js/PMS/Orders/Edit.js"/>
-        <script src="/js/PMS/Orders/Edit/Info.js"/>
-        <script src="/js/PMS/Orders/Edit/Production.js"/>
-        <script src="/js/PMS/Orders/Edit/Print.js"/>
-        <script src="/js/PMS/Orders/Edit/Mount.js"/>
-        <script src="/js/PMS/Orders/Edit/Notes.js"/>
+        <script src="/js/PMS/Orderslog/Form.js"/>
+        <script src="/js/PMS/Orderslog/List.js"/>
         
         <script src="/js/PMS/FixedAssets/List.js"/>
         <script src="/js/PMS/FixedAssets/Files.js"/>
