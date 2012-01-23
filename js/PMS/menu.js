@@ -107,12 +107,9 @@ PMS.Menu = function(params) {
             text: 'Выручка',
             iconCls: 'work_schd-icon',
             hidden: !acl.isView('reports'),
-            handler: PMS.menuMessage
-            /*
             handler: function() {
-                new PMS.Reports.Managers();
+                new PMS.Reports.Orderslog();
             }
-            */
         }, {
             text: 'Склад',
             iconCls: 'work_schd-icon',

@@ -1,6 +1,6 @@
 Ext.ns('PMS.Reports');
 
-PMS.Reports.Customers = Ext.extend(xlib.form.FormPanel, {
+PMS.Reports.Orderslog = Ext.extend(xlib.form.FormPanel, {
     
     permissions: acl.isView('reports'),
     
@@ -34,10 +34,10 @@ PMS.Reports.Customers = Ext.extend(xlib.form.FormPanel, {
         
         this.items = [this.periodStart, this.periodEnd];
         
-        PMS.Reports.Customers.superclass.initComponent.apply(this, arguments);
+        PMS.Reports.Orderslog.superclass.initComponent.apply(this, arguments);
         
         var w = new Ext.Window({
-            title: 'Отчёт о сотрудничестве за период:',
+            title: 'Отчёт по выручке за период:',
             resizable: false,
             width: 200,
             modal: true,
@@ -46,7 +46,7 @@ PMS.Reports.Customers = Ext.extend(xlib.form.FormPanel, {
                 text: 'Сгенерировать',
                 handler: acl.isView('reports') ? function() {
                     if (this.getForm().isValid()) {
-                        window.open(link('orders', 'report', 'customers', {
+                        window.open(link('orderslog', 'report', 'customers', {
                             start: this.periodStart.getHiddenValue(), 
                             end: this.periodEnd.getHiddenValue()
                         }, 'html'));

@@ -36,7 +36,7 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
         }, {
             name: 'staff_id',
             hiddenName: 'staff_id',
-            fieldLabel: 'Ответственный',
+            fieldLabel: 'Ответственный сотрудник',
             xtype: 'PMS.Staff.Combo'
         }, {
             name: 'summ_start',

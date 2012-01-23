@@ -96,8 +96,8 @@
         <script src="/js/PMS/Storage/Requests/Form.js"/>
         <script src="/js/PMS/Storage/Requests/List.js"/>
         
+        <script src="/js/PMS/Reports/Orderslog.js"/>
         <script src="/js/PMS/Reports/Managers.js"/>
-        <script src="/js/PMS/Reports/Customers.js"/>
         <script src="/js/PMS/Reports/Staff.js"/>
         <script src="/js/PMS/Reports/Vacations.js"/>
         
