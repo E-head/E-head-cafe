@@ -40,7 +40,7 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
             xtype: 'PMS.Staff.Combo'
         }, {
             name: 'summ_start',
-            fieldLabel: 'Сумма на начало рабочего дня',
+            fieldLabel: 'Остаток в кассе на начало дня',
             xtype: 'numberfield',
             validator: this.validateInkasso.createDelegate(this)
         }, {
@@ -56,7 +56,7 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
         }, {
             name: 'summ_rest',
             readOnly: true,
-            fieldLabel: 'Остаток на конец рабочего дня',
+            fieldLabel: 'Остаток в кассе на конец дня',
             xtype: 'numberfield'
         }];
         
