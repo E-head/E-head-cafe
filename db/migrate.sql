@@ -4,10 +4,11 @@ CREATE TABLE IF NOT EXISTS `orderslog` (
   `creator_id` int(10) unsigned NOT NULL,
   `date` date NOT NULL,
   `staff_id` int(10) unsigned NOT NULL,
-  `summ_start` int(10) unsigned NOT NULL default '0',
-  `summ_income` int(10) unsigned NOT NULL default '0',
-  `summ_inkasso` int(10) unsigned NOT NULL default '0',
-  `summ_rest` int(10) unsigned NOT NULL default '0',
+  `summ_start` DOUBLE( 10, 2 ) UNSIGNED NOT NULL DEFAULT '0',
+  `summ_income` DOUBLE( 10, 2 ) UNSIGNED NOT NULL DEFAULT '0',
+  `summ_inkasso` DOUBLE( 10, 2 ) UNSIGNED NOT NULL DEFAULT '0',
+  `summ_rest` DOUBLE( 10, 2 ) UNSIGNED NOT NULL DEFAULT '0',
+  `inkasso_dst` TEXT NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `staff_id` (`staff_id`),
   KEY `creator_id` (`creator_id`),
@@ -19,7 +20,5 @@ ALTER TABLE `orderslog`
   ADD CONSTRAINT `creator_id` FOREIGN KEY (`creator_id`) REFERENCES `accounts` (`id`);
 
 -- applied --
-
-ALTER TABLE `orderslog` ADD `inkasso_dst` TEXT NOT NULL ;
 
 -- TODO: Delete the table `customers` (has relations with table `orders`)
