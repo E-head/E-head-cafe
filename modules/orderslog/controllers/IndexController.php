@@ -57,6 +57,8 @@ class Orderslog_IndexController extends OSDN_Controller_Action
 
     public function reportAction()
     {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout->setLayout('report');
         $report = new PMS_Orderslog_Report();
         $response = $report->generate($this->_getAllParams());
         if ($response->isSuccess()) {

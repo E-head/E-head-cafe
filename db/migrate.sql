@@ -20,7 +20,6 @@ ALTER TABLE `orderslog`
 
 -- applied --
 
-
 ALTER TABLE `orderslog` ADD `inkasso_dst` TEXT NOT NULL ;
 
 -- TODO: Delete the table `customers` (has relations with table `orders`)
