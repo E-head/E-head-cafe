@@ -122,9 +122,7 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
             isValid        = summ_inkasso <= (summ_income + summ_start);
             
             var summ = summ_income + summ_start - summ_inkasso;
-            
             summ_restField.setValue( !isValid ? 0 : Math.round(summ*100) / 100);
-            console.log(summ);
             
         return isValid; 
     },
