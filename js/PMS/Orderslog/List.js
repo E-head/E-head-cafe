@@ -57,13 +57,17 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
             header: 'Остаток в кассе на начало дня',
             dataIndex: 'summ_start'
         }, {
-            width: 200,
+            width: 150,
             header: 'Сумма выручки за день',
             dataIndex: 'summ_income'
         }, {
-            width: 200,
+            width: 120,
             header: 'Сумма инкассации',
             dataIndex: 'summ_inkasso'
+        }, {
+            width: 200,
+            header: 'Назначение инкассации',
+            dataIndex: 'inkasso_dst'
         }, {
             width: 200,
             header: 'Остаток в кассе на конец дня',
@@ -97,6 +101,7 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
 	            {name: 'summ_income'},
 	            {name: 'summ_inkasso'},
 	            {name: 'summ_rest'},
+	            {name: 'inkasso_dst'},
                 {name: 'created', type: 'date', dateFormat: xlib.date.DATE_TIME_FORMAT_SERVER}
 	        ]
 	    });
@@ -127,10 +132,6 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
 	    this.plugins = [actionsPlugin];
         
         PMS.Orderslog.List.superclass.initComponent.apply(this, arguments);
-		
-        if (this.permissions) {
-            this.on('rowdblclick', this.onRowdblclick, this);
-        }
     },
     
     onRowdblclick: function(g, rowIndex) {
@@ -140,16 +141,6 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
     add: function(g, rowIndex) {
 		var form = new PMS.Orderslog.Form({permissions: this.permissions});
 		var w = form.showInWindow({title: 'Выручка за день'});
-		form.on('saved', function() {this.getStore().reload(); w.close();}, this);
-		w.show();
-	},
-	
-	edit: function(g, rowIndex) {
-		var form = new PMS.Orderslog.Form({
-            permissions: this.permissions,
-			sid: this.getStore().getAt(rowIndex).get('id')
-		});
-        var w = form.showInWindow({title: 'Редактирование'});
 		form.on('saved', function() {this.getStore().reload(); w.close();}, this);
 		w.show();
 	},

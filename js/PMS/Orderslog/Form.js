@@ -58,6 +58,14 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
             readOnly: true,
             fieldLabel: 'Остаток в кассе на конец дня',
             xtype: 'numberfield'
+        }, {
+            fieldLabel: 'Назначение инкассации',
+            xtype: 'displayfield'
+        }, {
+            name: 'inkasso_dst',
+            xtype: 'textfield',
+            hideLabel: true,
+            value: 'Банк'
         }];
         
         PMS.Orderslog.Form.superclass.initComponent.apply(this, arguments);
@@ -94,8 +102,8 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
     
     showInWindow: function(cfg) {
         var w = new Ext.Window(Ext.apply({
-            width: 330,
-            height: 230,
+            width: 400,
+            height: 280,
             items: [this],
             modal: true,
             buttons: [

@@ -18,7 +18,8 @@ class PMS_Orderslog
             'summ_start'    => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
             'summ_income'   => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
             'summ_inkasso'  => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
-            'summ_rest'     => array(array('Id', 'allowZero' => true), 'presence' => 'required')
+            'summ_rest'     => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
+            'inkasso_dst'   => array(array('StringLength', 1, 4096), 'presence' => 'required')
         ), $params);
 
         $response = new OSDN_Response();

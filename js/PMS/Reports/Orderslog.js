@@ -46,7 +46,7 @@ PMS.Reports.Orderslog = Ext.extend(xlib.form.FormPanel, {
                 text: 'Сгенерировать',
                 handler: acl.isView('reports') ? function() {
                     if (this.getForm().isValid()) {
-                        window.open(link('orderslog', 'report', 'customers', {
+                        window.open(link('orderslog', 'index', 'report', {
                             start: this.periodStart.getHiddenValue(), 
                             end: this.periodEnd.getHiddenValue()
                         }, 'html'));

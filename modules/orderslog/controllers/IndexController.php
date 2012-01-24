@@ -17,6 +17,7 @@ class Orderslog_IndexController extends OSDN_Controller_Action
     {
         $acl->setResource(OSDN_Acl_Resource_Generator::getInstance()->orders);
         $acl->isAllowed(OSDN_Acl_Privilege::VIEW, 'get-list');
+        $acl->isAllowed(OSDN_Acl_Privilege::VIEW, 'report');
         $acl->isAllowed(OSDN_Acl_Privilege::UPDATE, 'add');
         $acl->isAllowed(OSDN_Acl_Privilege::UPDATE, 'delete');
     }
@@ -52,5 +53,17 @@ class Orderslog_IndexController extends OSDN_Controller_Action
     	} else {
     	   $this->_collectErrors($response);
     	}
+    }
+
+    public function reportAction()
+    {
+        $report = new PMS_Orderslog_Report();
+        $response = $report->generate($this->_getAllParams());
+        if ($response->isSuccess()) {
+            $this->view->data = $response->data;
+            $this->view->content = $this->view->render('index/report.phtml');
+        } else {
+            $this->_collectErrors($response);
+        }
     }
 }
