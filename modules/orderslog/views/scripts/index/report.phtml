@@ -29,16 +29,16 @@
             <tr>
                 <td><?=$row['date']?></td>
                 <td><?=$row['staff_name']?></td>
-                <td align="right"><?=$row['summ_start']?>,00</td>
-                <td align="right"><?=$row['summ_income']?>,00</td>
-                <td align="right"><?=$row['summ_inkasso']?>,00</td>
+                <td align="right"><?=number_format($row['summ_start'],2,'.',' ')?></td>
+                <td align="right"><?=number_format($row['summ_income'],2,'.',' ')?></td>
+                <td align="right"><?=number_format($row['summ_inkasso'],2,'.',' ')?></td>
                 <td><?=$row['inkasso_dst']?></td>
-                <td align="right"><?=$row['summ_rest']?>,00</td>
+                <td align="right"><?=number_format($row['summ_rest'],2,'.',' ')?></td>
             </tr>
         <?php endforeach; ?>
     <tr><td colspan="7">&nbsp;</td></tr>
     <tr><td colspan="6"><b>Общая сумма выручки за период:</b></td>
-        <td align="right"><b><?=$total?>,00</b>
+        <td align="right"><b><?=number_format($total,2,'.',' ')?></b>
     </td></tr>
 </table>
 

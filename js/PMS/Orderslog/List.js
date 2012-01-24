@@ -54,14 +54,17 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
             id: this.autoExpandColumn
         }, {
             width: 200,
+            align: 'right',
             header: 'Остаток в кассе на начало дня',
             dataIndex: 'summ_start'
         }, {
             width: 150,
+            align: 'right',
             header: 'Сумма выручки за день',
             dataIndex: 'summ_income'
         }, {
             width: 120,
+            align: 'right',
             header: 'Сумма инкассации',
             dataIndex: 'summ_inkasso'
         }, {
@@ -70,6 +73,7 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
             dataIndex: 'inkasso_dst'
         }, {
             width: 200,
+            align: 'right',
             header: 'Остаток в кассе на конец дня',
             dataIndex: 'summ_rest'
         }, {

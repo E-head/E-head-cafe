@@ -16,9 +16,7 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
         
         allowBlank: false,
         
-        allowNegative: false,
-        
-        allowDecimals: false
+        allowNegative: false
         
     }, 
     
@@ -123,7 +121,10 @@ PMS.Orderslog.Form = Ext.extend(xlib.form.FormPanel, {
             summ_restField = this.getForm().findField('summ_rest'),
             isValid        = summ_inkasso <= (summ_income + summ_start);
             
-            summ_restField.setValue( !isValid ? 0 : (summ_income + summ_start - summ_inkasso));
+            var summ = summ_income + summ_start - summ_inkasso;
+            
+            summ_restField.setValue( !isValid ? 0 : Math.round(summ*100) / 100);
+            console.log(summ);
             
         return isValid; 
     },

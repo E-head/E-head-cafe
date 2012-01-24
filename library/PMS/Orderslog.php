@@ -15,10 +15,10 @@ class PMS_Orderslog
         ), array(
             'date'          => array(array('StringLength', 0, 10), 'presence' => 'required'),
             'staff_id'      => array('Id', 'presence' => 'required'),
-            'summ_start'    => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
-            'summ_income'   => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
-            'summ_inkasso'  => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
-            'summ_rest'     => array(array('Id', 'allowZero' => true), 'presence' => 'required'),
+            'summ_start'    => array(array('Float', 'en'), 'presence' => 'required'),
+            'summ_income'   => array(array('Float', 'en'), 'presence' => 'required'),
+            'summ_inkasso'  => array(array('Float', 'en'), 'presence' => 'required'),
+            'summ_rest'     => array(array('Float', 'en'), 'presence' => 'required'),
             'inkasso_dst'   => array(array('StringLength', 1, 4096), 'presence' => 'required')
         ), $params);
 
