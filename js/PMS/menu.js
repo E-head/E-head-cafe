@@ -100,6 +100,17 @@ PMS.Menu = function(params) {
                 id: 'PMS.FixedAssets.List'
             });
         }
+    }, {
+        text: 'Приказы и объявления',
+        iconCls: 'work_schd-icon',
+        hidden: !acl.isView('notice'),
+        handler: function() {
+            PMS.System.Layout.getTabPanel().add({
+                iconCls: 'work_schd-icon',
+                xtype: 'PMS.Notice.List',
+                id: 'PMS.Notice.List'
+            });
+        } 
 	}, {
 	    text: 'Отчёты',
 	    iconCls: 'prod_schd-icon',
