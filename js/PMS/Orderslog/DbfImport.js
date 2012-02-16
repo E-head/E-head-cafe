@@ -14,22 +14,21 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
     
     initComponent: function() {
         
+        var self = this;
+        
         this.uploadForm = new xlib.form.FormPanel({
             permissions: true,
             fileUpload: true,
             labelWidth: 60,
-            defaults: {
-                anchor: 0
-            },
             items: [{
                 xtype: 'fileuploadfield',
                 fieldLabel: 'Dbf File',
                 name: 'f',
-                buttonText: '',
-                anchor: '100%',
+                buttonText: 'Загрузить файл',
                 allowBlank: false,
-                buttonCfg: {
-                    iconCls: 'x-form-file-btn-icon'
+                listeners: {
+                    fileselected: self.onProcess,
+                    scope: self
                 }
             }]
         });
@@ -74,18 +73,6 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         
         this.items = [this.resultGrid, this.uploadForm];
         
-        this.buttons = [{
-            text: 'Загрузить',
-            handler: this.onProcess,
-            scope: this
-        }, {
-            text: 'Отмена',
-            handler: function() {
-                this.close();
-            },
-            scope: this
-        }]
-        
         PMS.Orderslog.DbfImport.superclass.initComponent.apply(this, arguments);
         
         this.show();
@@ -96,6 +83,8 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         if (!this.uploadForm.getForm().isValid()) {
             return;
         }
+        
+        this.resultGrid.getStore().removeAll(false);
         
         this.uploadForm.getForm().submit({
             url: this.submitURL,
@@ -117,6 +106,5 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
             this.onFailure();
         }
         this.resultGrid.getStore().loadData(o.data);
-        return;
     }
 });
