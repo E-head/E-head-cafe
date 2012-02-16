@@ -12,6 +12,8 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
     
     modal: true,
     
+    border: false,
+    
     initComponent: function() {
         
         var self = this;
@@ -19,11 +21,14 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         this.uploadForm = new xlib.form.FormPanel({
             permissions: true,
             fileUpload: true,
-            labelWidth: 60,
+            bodyStyle: {'background-color': '#CCD8E7'},
+            padding: '5px 0 0 0',
+            border: false,
             items: [{
                 xtype: 'fileuploadfield',
-                fieldLabel: 'Dbf File',
                 name: 'f',
+                hideLabel: true,
+                buttonOnly: true,
                 buttonText: 'Загрузить файл',
                 allowBlank: false,
                 listeners: {
@@ -34,8 +39,6 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         });
         
         this.resultGrid = new Ext.grid.GridPanel({
-            border: false,
-            cls: 'x-border-bottom',
             height: 400,
             viewConfig: {
                 autoFill: true
