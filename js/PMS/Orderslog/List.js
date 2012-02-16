@@ -14,8 +14,6 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
     
     layout: 'fit',
     
-    viewConfig: {autoFill: true},
-	
     loadURL: link('orderslog', 'index', 'get-list'),
     
     deleteURL: link('orderslog', 'index', 'delete'),
