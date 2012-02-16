@@ -100,7 +100,6 @@ Zend_Locale::disableCache(true);
 // configure mail
 //$transport = new Zend_Mail_Transport_Smtp($config->mail->SMTP, $config->mail->authentificate->toArray());
 //Zend_Mail::setDefaultTransport($transport);
-require_once 'OSDN/Functions.php';
 
 /**
  * Prepare front controller
