@@ -82,37 +82,31 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
 	        ]
 	    });
         
-        this.bbar = new xlib.PagingToolbar({
-            store: this.ds,
-            displayInfo: true,
-            items: ['-', {
-            	text: 'Добавить',
-            	iconCls: 'add',
-            	handler: this.add.createDelegate(this),
-                hidden: !this.permissions
-            }]
-        });
-        
-        var actions = [{
+        this.tbar = [{
             text: 'Добавить',
             iconCls: 'add',
             handler: this.add.createDelegate(this),
             hidden: !this.permissions
-        }, '-', {
-            text: 'Редактировать',
-            iconCls: 'edit',
-            handler: this.edit.createDelegate(this),
-            hidden: !this.permissions
-        }, {
-            text: 'Удалить',
-            iconCls: 'delete',
-            handler: this.onDelete,
-            hidden: !this.permissions
         }];
+        
+        this.bbar = new xlib.PagingToolbar({
+            store: this.ds,
+            displayInfo: true
+        });
         
         var actionsPlugin = new xlib.grid.Actions({
 	        autoWidth: true,
-	        items: actions
+	        items: [{
+                text: 'Редактировать',
+                iconCls: 'edit',
+                handler: this.edit.createDelegate(this),
+                hidden: !this.permissions
+            }, {
+                text: 'Удалить',
+                iconCls: 'delete',
+                handler: this.onDelete,
+                hidden: !this.permissions
+            }]
 	    });
 	    
 	    this.plugins = [new Ext.grid.GridFilters({
