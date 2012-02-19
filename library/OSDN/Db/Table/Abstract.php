@@ -258,7 +258,8 @@ abstract class OSDN_Db_Table_Abstract extends Zend_Db_Table_Abstract
      * @param array $data       Columns-value pairs
      * @param array $clause     An array of SQL WHERE clauses
      *
-     * <pre>For example: </pre><code>
+     * <pre>For example: </pre>
+     * <code>
      *    $data = array('datafield' => 1);
      *    $clause = array('clausefield = ?' => 2);
      *    $this->updateQuote($data, $clause);
