@@ -80,6 +80,13 @@
         
         <script src="/js/PMS/Orderslog/DbfImport.js"/>
         
+        <script src="/js/PMS/Sales/Expendables/List.js"/>
+        <script src="/js/PMS/Sales/Expendables/Form.js"/>
+        <script src="/js/PMS/Sales/Goods/List.js"/>
+        <script src="/js/PMS/Sales/Goods/Edit.js"/>
+        <script src="/js/PMS/Sales/Goods/Form.js"/>
+        <script src="/js/PMS/Sales/Goods/Ingredients.js"/>
+        
         <script src="/js/PMS/FixedAssets/List.js"/>
         <script src="/js/PMS/FixedAssets/Files.js"/>
         <script src="/js/PMS/FixedAssets/Form.js"/>

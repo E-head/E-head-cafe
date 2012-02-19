@@ -55,6 +55,30 @@ PMS.Menu = function(params) {
 	        });
 	    }
 	}, {
+	    text: 'Реализация',
+	    iconCls: 'prod_schd-icon',
+        menu: [{
+            text: 'Продукция',
+            iconCls: 'work_schd-icon',
+            handler: function() {
+                PMS.System.Layout.getTabPanel().add({
+                    iconCls: 'work_schd-icon',
+                    xtype: 'PMS.Sales.Goods.List',
+                    id: 'PMS.Sales.Goods.List'
+                });
+            }
+        }, {
+            text: 'Расходные материалы',
+            iconCls: 'work_schd-icon',
+            handler: function() {
+                PMS.System.Layout.getTabPanel().add({
+                    iconCls: 'work_schd-icon',
+                    xtype: 'PMS.Sales.Expendables.List',
+                    id: 'PMS.Sales.Expendables.List'
+                });
+            }
+        }]
+	}, {
 	    text: 'Склад',
 	    iconCls: 'suppliers-icon',
         hidden: !acl.isView('storage'),

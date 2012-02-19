@@ -102,8 +102,8 @@ class PMS_FixedAssets
         $response = new OSDN_Response();
         $validate = new OSDN_Validate_Id();
         if (!$validate->isValid($id)) {
-            $response->addStatus(new PMS_Status(PMS_Status::INPUT_PARAMS_INCORRECT, 'id'));
-            return $response;
+            return $response->addStatus(new PMS_Status(
+                PMS_Status::INPUT_PARAMS_INCORRECT, 'id'));
         }
         $select = $this->_table->getAdapter()->select()
             ->from($this->_table->getTableName())
@@ -118,8 +118,7 @@ class PMS_FixedAssets
             $status = PMS_Status::DATABASE_ERROR;
         }
 
-        $response->addStatus(new PMS_Status($status));
-        return $response;
+        return $response->addStatus(new PMS_Status($status));
     }
 
     /**

@@ -108,27 +108,33 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
 	        ]
 	    });
         
+        this.tbar = [{
+            text: 'Добавить',
+            iconCls: 'add',
+            handler: this.add.createDelegate(this),
+            hidden: !this.permissions
+        }, {
+            text: 'Отчёт',
+            iconCls: 'work_schd-icon',
+            hidden: !acl.isView('reports'),
+            handler: function() {
+                new PMS.Reports.Orderslog();
+            }
+        }];
+        
         this.bbar = new xlib.PagingToolbar({
             store: this.ds,
-            displayInfo: true,
-            items: ['-', {
-            	text: 'Добавить',
-            	iconCls: 'add',
-            	handler: this.add.createDelegate(this),
-                hidden: !this.permissions
-            }]
+            displayInfo: true
         });
-        
-        var actions = [{
-            text: 'Удалить',
-            iconCls: 'delete',
-            handler: this.onDelete,
-            hidden: !this.permissions
-        }];
         
         var actionsPlugin = new xlib.grid.Actions({
 	        autoWidth: true,
-	        items: actions
+	        items: [{
+                text: 'Удалить',
+                iconCls: 'delete',
+                handler: this.onDelete,
+                hidden: !this.permissions
+            }]
 	    });
 	    
 	    this.plugins = [actionsPlugin];

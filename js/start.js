@@ -101,6 +101,14 @@ Ext.onReady(function(){
             id: 'PMS.Orderslog.List'
         });
         
+        /*
+        PMS.System.Layout.getTabPanel().add({
+            iconCls: 'work_schd-icon',
+            xtype: 'PMS.Sales.Goods.List',
+            id: 'PMS.Sales.Goods.List'
+        });
+        */
+        
         PMS.System.Layout.doLayout();
         
         if (Ext.isArray(xlib.messages) && xlib.messages.length > 0) {

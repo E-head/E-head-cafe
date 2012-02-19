@@ -179,13 +179,16 @@ PMS.Staff.List = Ext.extend(Ext.grid.GridPanel, {
         });
         
         this.tbar = new Ext.Toolbar({
-            items: [
-                this.addBtn, 
-                ' ', 
-                this.filtersPlugin.getSearchField({width: 400}), 
-                ' ', '-', ' ',
-                this.archiveBtn
-            ]
+            items: [this.addBtn, ' ', this.filtersPlugin.getSearchField({width: 400}), 
+                ' ', '-', ' ', this.archiveBtn, 
+                ' ', '-', ' ', {
+                text: 'Отчёт',
+                iconCls: 'work_schd-icon',
+                hidden: !acl.isView('reports'),
+                handler: function() {
+                    new PMS.Reports.Staff();
+                }
+            }]
         });
         
         this.bbar = new xlib.PagingToolbar({

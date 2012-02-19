@@ -154,6 +154,15 @@ PMS.Storage.Assets.List = Ext.extend(Ext.grid.GridPanel, {
                 scope: this
             });
             
+            this.tbar.push({
+                text: 'Отчёт',
+                iconCls: 'work_schd-icon',
+                hidden: !acl.isView('reports'),
+                handler: function() {
+                     window.open(link('storage', 'report', 'index', {}, 'html'));
+                }
+            });
+            
             this.plugins.push(checkColumn);
             
             this.plugins.push(actions);

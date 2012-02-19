@@ -1,8 +1,8 @@
-Ext.ns('PMS.FixedAssets');
+Ext.ns('PMS.Sales.Goods');
 
-PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
+PMS.Sales.Goods.List = Ext.extend(Ext.grid.GridPanel, {
     
-    title: 'Основные средства',
+    title: 'Продукция',
     
     autoScroll: true,
     
@@ -16,45 +16,42 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
     
     viewConfig: {autoFill: true},
 	
-    loadURL: link('fixed-assets', 'index', 'get-list'),
+    loadURL: link('sales', 'goods', 'get-list'),
     
-    deleteURL: link('fixed-assets', 'index', 'delete'),
+    deleteURL: link('sales', 'goods', 'delete'),
     
-    permissions: acl.isUpdate('admin'),
+    permissions: true,
     
     initComponent: function() {
         
         this.autoExpandColumn = Ext.id();
         
         this.cm = new Ext.grid.ColumnModel([{
-            header: 'Инвентарный №',
-            width: 100,
-            dataIndex: 'inventory_number',
-            sortable: true
+            header: 'Код',
+            dataIndex: 'code',
+            width: 70
         }, {
-            width: 200,
             header: 'Наименование',
             dataIndex: 'name',
-            sortable: true
+            id: this.autoExpandColumn
         }, {
-            width: 100,
-            header: 'Количество',
-            dataIndex: 'qty',
-            sortable: true
+            header: 'Ед. измерения',
+            dataIndex: 'measure',
+            width: 100
         }, {
-            width: 100,
-            header: 'Стоимость',
+            header: 'Цена',
             dataIndex: 'price',
-            sortable: true
+            xtype: 'numbercolumn',
+            format: '0.00',
+            width: 100,
+            align: 'right'
         }, {
-            width: 200,
-            header: 'Ответственный',
-            dataIndex: 'staff_name',
-            sortable: true
-        }, {
-            id: this.autoExpandColumn,
-            header: 'Описание',
-            dataIndex: 'description'
+            header: 'Себестоимость',
+            dataIndex: 'total_cost',
+            xtype: 'numbercolumn',
+            format: '0.00',
+            width: 120,
+            align: 'right'
         }]);
         
         this.cm.defaultSortable = true; 
@@ -68,33 +65,29 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
 	        remoteSort: true,
 	        root: 'data',
             sortInfo: {
-                field: 'name',
+                field: 'id',
                 direction: 'ASC'
             },
 	        fields: [
 	            {name: 'id'},
-	            {name: 'inventory_number'},
+	            {name: 'code'},
 	            {name: 'name'},
-	            {name: 'qty'},
 	            {name: 'price'},
-	            {name: 'staff_name'},
-                {name: 'description'}
+	            {name: 'measure'},
+	            {name: 'total_cost'}
 	        ]
 	    });
+        
+        this.filtersPlugin = new Ext.grid.GridFilters({
+            filters: [{type: 'string',  dataIndex: 'name'}]}
+        );
         
         this.tbar = [{
             text: 'Добавить',
             iconCls: 'add',
             handler: this.add.createDelegate(this),
             hidden: !this.permissions
-        }, {
-            text: 'Отчёт',
-            iconCls: 'work_schd-icon',
-            hidden: !acl.isView('reports'),
-            handler: function() {
-                window.open(link('fixed-assets', 'report', 'index', {}, 'html'));
-            }
-        }];
+        }, this.filtersPlugin.getSearchField()]; 
         
         this.bbar = new xlib.PagingToolbar({
             store: this.ds,
@@ -116,14 +109,9 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
             }]
 	    });
 	    
-	    this.plugins = [new Ext.grid.GridFilters({
-            filters: [
-                {type: 'string',  dataIndex: 'name'},
-                {type: 'string',  dataIndex: 'description'}
-            ]}
-        ), actionsPlugin];
+	    this.plugins = [this.filtersPlugin, actionsPlugin];
         
-        PMS.FixedAssets.List.superclass.initComponent.apply(this, arguments);
+        PMS.Sales.Goods.List.superclass.initComponent.apply(this, arguments);
 		
         if (this.permissions) {
             this.on('rowdblclick', this.onRowdblclick, this);
@@ -135,20 +123,21 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
     },
    
     add: function(g, rowIndex) {
-		var form = new PMS.FixedAssets.Form({permissions: this.permissions});
-		var w = form.showInWindow({title: 'Добавление'});
-		form.on('saved', function() {this.getStore().reload(); w.close();}, this);
-		w.show();
+		var editWin = new PMS.Sales.Goods.Edit();
+		editWin.on('saved', function() {
+            editWin.close();
+            this.getStore().reload(); 
+        }, this);
 	},
 	
 	edit: function(g, rowIndex) {
-		var form = new PMS.FixedAssets.Form({
-            permissions: this.permissions,
-			sid: this.getStore().getAt(rowIndex).get('id')
-		});
-        var w = form.showInWindow({title: 'Редактирование'});
-		form.on('saved', function() {this.getStore().reload(); w.close();}, this);
-		w.show();
+		var editWin = new PMS.Sales.Goods.Edit({
+            sid: this.getStore().getAt(rowIndex).get('id')
+        });
+		editWin.on('saved', function() {
+            editWin.close();
+            this.getStore().reload(); 
+        }, this);
 	},
     
     onDelete: function(g, rowIndex) {
@@ -168,7 +157,9 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
                             }
                             g.getStore().reload();
                         },
-                        failure: Ext.emptyFn(),
+                        failure: function() {
+                            xlib.Msg.error('Ошибка сервера');
+                        },
                         params: {id: g.getStore().getAt(rowIndex).get('id')}
                     });
                 }
@@ -178,4 +169,4 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
     } 
 });
 
-Ext.reg('PMS.FixedAssets.List', PMS.FixedAssets.List);
+Ext.reg('PMS.Sales.Goods.List', PMS.Sales.Goods.List);
