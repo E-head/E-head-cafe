@@ -72,9 +72,9 @@ PMS.Sales.Goods.List = Ext.extend(Ext.grid.GridPanel, {
 	            {name: 'id'},
 	            {name: 'code'},
 	            {name: 'name'},
-	            {name: 'price'},
+	            {name: 'price', type: 'float'},
 	            {name: 'measure'},
-	            {name: 'total_cost'}
+	            {name: 'total_cost', type: 'float'}
 	        ]
 	    });
         

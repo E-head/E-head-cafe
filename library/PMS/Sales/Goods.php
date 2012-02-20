@@ -137,9 +137,9 @@ class PMS_Sales_Goods
 
         $select = $this->_table->getAdapter()->select();
         $select->from(array('g' => $this->_table->getTableName()), array())
-               ->join(array('r' => $relTable->getTableName()),
+               ->joinLeft(array('r' => $relTable->getTableName()),
                         'r.goods_id=g.id', array())
-               ->join(array('e' => $expTable->getTableName()),
+               ->joinLeft(array('e' => $expTable->getTableName()),
                         'r.expendables_id=e.id', array())
                ->columns(array('g.id', 'g.code', 'g.name', 'g.price', 'g.measure',
                     'total_cost' => new Zend_Db_Expr('SUM(r.qty * e.price)'
