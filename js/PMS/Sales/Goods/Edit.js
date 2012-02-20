@@ -54,7 +54,7 @@ PMS.Sales.Goods.Edit = Ext.extend(Ext.Window, {
         this.show();
         
         var calcCost = function(store) {
-            this.formPanel.setCost(Ext.util.Format.number(store.sum('cost'), '0.00'));
+            this.formPanel.setCost(Ext.util.Format.number(store.sum('cost'), '0.000,00/i'));
         }
         
         this.gridPanel.getStore().on({

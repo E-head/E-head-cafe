@@ -43,7 +43,6 @@ PMS.Sales.Expendables.List = Ext.extend(Ext.grid.GridPanel, {
             header: 'Стоимость',
             dataIndex: 'price',
             xtype: 'numbercolumn',
-            format: '0.00',
             width: 100,
             align: 'right'
         }]);

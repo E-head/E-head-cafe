@@ -42,6 +42,8 @@ PMS.FixedAssets.List = Ext.extend(Ext.grid.GridPanel, {
             dataIndex: 'qty',
             sortable: true
         }, {
+            xtype: 'numbercolumn',
+            align: 'right',
             width: 100,
             header: 'Стоимость',
             dataIndex: 'price',

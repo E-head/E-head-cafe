@@ -46,7 +46,7 @@ PMS.Staff.List = Ext.extend(Ext.grid.GridPanel, {
             totalProperty: 'totalCount',
             fields: [
                 {name: 'id', type: 'int'}, 
-                {name: 'pay_rate', type: 'int'}, 
+                {name: 'pay_rate', type: 'float'}, 
                 'name', 'function', 'pay_period', 'cv_file',
                 {
                     name: 'hire_date', 
@@ -132,13 +132,11 @@ PMS.Staff.List = Ext.extend(Ext.grid.GridPanel, {
                     return pay_periods.get(value);
                 }
             }, {
+                xtype: 'numbercolumn',
                 header: 'Тариф (руб.)',
                 dataIndex: 'pay_rate',
                 align: 'right',
-                width: 80,
-                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                    return Ext.util.Format.number(value, '0,000.00').replace(/,/g, ' ');
-                }
+                width: 80
             }, {
                 header: 'Резюме',
                 dataIndex: 'cv_file',

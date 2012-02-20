@@ -38,14 +38,14 @@ PMS.Sales.Goods.Ingredients = Ext.extend(Ext.grid.GridPanel, {
             header: 'Цена',
             dataIndex: 'price',
             xtype: 'numbercolumn',
-            format: '0.00',
+            format: '0.000,00/i',
             width: 60,
             align: 'right'
         }, {
             header: 'Стоимость',
             dataIndex: 'cost',
             xtype: 'numbercolumn',
-            format: '0.00',
+            format: '0.000,00/i',
             width: 90,
             align: 'right'
         }]);

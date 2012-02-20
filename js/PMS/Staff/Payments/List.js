@@ -76,27 +76,22 @@ PMS.Staff.Payments.List = Ext.extend(Ext.grid.GridPanel, {
             }, {
                 header: 'Сумма (руб.)',
                 dataIndex: 'value',
-                align: 'right',
                 id: this.autoExpandColumn,
-                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                    return Ext.util.Format.number(value, '0,000.00').replace(/,/g, ' ');
-                }
+                xtype: 'numbercolumn',
+                align: 'right'
             }, {
                 header: 'Распределено (руб.)',
                 dataIndex: 'paid',
+                xtype: 'numbercolumn',
                 align: 'right',
-                width: 140,
-                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                    return Ext.util.Format.number(value, '0,000.00').replace(/,/g, ' ');
-                }
+                width: 140
             }, {
                 header: 'Остаток (руб.)',
-                // dataIndex: 'value' - 'paid',
+                xtype: 'numbercolumn',
                 align: 'right',
                 width: 140,
                 renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                    value = record.get('value') - record.get('paid'); 
-                    return Ext.util.Format.number(value, '0,000.00').replace(/,/g, ' ');
+                    return (record.get('value') - record.get('paid')); 
                 }
             }]
         });
@@ -110,10 +105,8 @@ PMS.Staff.Payments.List = Ext.extend(Ext.grid.GridPanel, {
     
     onUpdate: function(g, rowIndex) {
         
-        var record = g.getStore().getAt(rowIndex);
-        
         var formPanel = new PMS.Staff.Payments.Form({
-            record: record
+            record: g.getStore().getAt(rowIndex)
         });
         
         formPanel.getForm().on('saved', function() {

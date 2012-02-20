@@ -39,7 +39,8 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         });
         
         this.resultGrid = new Ext.grid.GridPanel({
-            height: 400,
+            title: 'Продукция',
+            height: 150,
             viewConfig: {
                 autoFill: true
             },
@@ -60,7 +61,6 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
                 dataIndex: 'SUMMA',
                 align: 'right',
                 xtype: 'numbercolumn',
-                format: '0.00',
                 width: 40
             }]),
             ds: new Ext.data.ArrayStore({
@@ -74,7 +74,59 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
             })
         });
         
-        this.items = [this.resultGrid, this.uploadForm];
+        this.calcGrid = new Ext.grid.GridPanel({
+            title: 'Расходные материалы',
+            height: 250,
+            viewConfig: {
+                autoFill: true
+            },
+            cm: new Ext.grid.ColumnModel([{
+                header: '№',
+                hidden: true,
+                dataIndex: 'id',
+                width: 40
+            }, {
+                header: 'Наименование',
+                dataIndex: 'name',
+                id: this.autoExpandColumn
+            }, {
+                header: 'Ед. измерения',
+                dataIndex: 'measure',
+                width: 100
+            }, {
+                header: 'Кол-во',
+                dataIndex: 'qty',
+                width: 60,
+                align: 'right'
+            }, {
+                header: 'Цена',
+                dataIndex: 'price',
+                xtype: 'numbercolumn',
+                format: '0.000,00/i',
+                width: 40,
+                align: 'right'
+            }, {
+                header: 'Сумма',
+                dataIndex: 'cost',
+                align: 'right',
+                xtype: 'numbercolumn',
+                format: '0.000,00/i',
+                width: 40
+            }]),
+            ds: new Ext.data.ArrayStore({
+                idProperty: 'CODE',
+                fields: [
+                    {name: 'id'},
+                    {name: 'name'},
+                    {name: 'measure'},
+                    {name: 'qty'},
+                    {name: 'price', type: 'float'},
+                    {name: 'cost', type: 'float'}
+                ]
+            })
+        });
+        
+        this.items = [this.resultGrid, this.calcGrid, this.uploadForm];
         
         PMS.Orderslog.DbfImport.superclass.initComponent.apply(this, arguments);
         
@@ -109,5 +161,13 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
             this.onFailure();
         }
         this.resultGrid.getStore().loadData(o.data);
+        
+        // Calculate and add the summary row
+        this.resultGrid.getStore().add(new (this.resultGrid.getStore()).recordType({
+            CODE: '<b>Итого</b>',
+            NAME: '',
+            COUNT: '',
+            SUMMA: this.resultGrid.getStore().sum('SUMMA')
+        }, ' '));
     }
 });

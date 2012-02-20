@@ -51,16 +51,19 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
             dataIndex: 'staff_name',
             id: this.autoExpandColumn
         }, {
+            xtype: 'numbercolumn',
             width: 200,
             align: 'right',
             header: 'Остаток в кассе на начало дня',
             dataIndex: 'summ_start'
         }, {
+            xtype: 'numbercolumn',
             width: 150,
             align: 'right',
             header: 'Сумма выручки за день',
             dataIndex: 'summ_income'
         }, {
+            xtype: 'numbercolumn',
             width: 120,
             align: 'right',
             header: 'Сумма инкассации',
@@ -70,6 +73,7 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
             header: 'Назначение инкассации',
             dataIndex: 'inkasso_dst'
         }, {
+            xtype: 'numbercolumn',
             width: 200,
             align: 'right',
             header: 'Остаток в кассе на конец дня',
@@ -99,10 +103,10 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
 	            {name: 'id'},
 	            {name: 'date', type: 'date', dateFormat: xlib.date.DATE_FORMAT_SERVER},
 	            {name: 'staff_name'},
-	            {name: 'summ_start'},
-	            {name: 'summ_income'},
-	            {name: 'summ_inkasso'},
-	            {name: 'summ_rest'},
+	            {name: 'summ_start', type: 'float'},
+	            {name: 'summ_income', type: 'float'},
+	            {name: 'summ_inkasso', type: 'float'},
+	            {name: 'summ_rest', type: 'float'},
 	            {name: 'inkasso_dst'},
                 {name: 'created', type: 'date', dateFormat: xlib.date.DATE_TIME_FORMAT_SERVER}
 	        ]

@@ -42,14 +42,12 @@ PMS.Sales.Goods.List = Ext.extend(Ext.grid.GridPanel, {
             header: 'Цена',
             dataIndex: 'price',
             xtype: 'numbercolumn',
-            format: '0.00',
             width: 100,
             align: 'right'
         }, {
             header: 'Себестоимость',
             dataIndex: 'total_cost',
             xtype: 'numbercolumn',
-            format: '0.00',
             width: 120,
             align: 'right'
         }]);

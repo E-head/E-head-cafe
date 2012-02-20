@@ -48,20 +48,19 @@ PMS.Storage.Assets.List = Ext.extend(Ext.grid.GridPanel, {
             sortable: true,
             width: 100
         }, {
+            xtype: 'numbercolumn',
+            align: 'right',
             header: 'Цена за единицу (р.)',
             dataIndex: 'unit_price',
             sortable: true,
-            width: 120,
-            renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                return Ext.util.Format.number(value, '0,000.00').replace(/,/g, ' ');
-            }
+            width: 120
         }, {
+            xtype: 'numbercolumn',
+            align: 'right',
             header: 'Сумма (р.)',
             width: 120,
             renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                var summ = record.get('qty') * record.get('unit_price');
-                summ = Ext.util.Format.number(summ, '0,000.00');
-                return summ.replace(/,/g, ' ');
+                return (record.get('qty') * record.get('unit_price'));
             }
         }];
         
@@ -71,7 +70,8 @@ PMS.Storage.Assets.List = Ext.extend(Ext.grid.GridPanel, {
             root: 'data',
             id: 'id',
             totalProperty: 'totalCount',
-            fields: ['id', 'name', 'measure', 'qty', 'unit_price', 'checked']
+            fields: ['id', 'name', 'measure', 'qty', 'checked', 
+                {name: 'unit_price', type: 'float'}]
         });
         
         this.filtersPlugin = new Ext.grid.GridFilters({
