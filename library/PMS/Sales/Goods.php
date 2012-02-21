@@ -173,7 +173,7 @@ class PMS_Sales_Goods
         }
         $select = $this->_table->getAdapter()->select()
             ->from($this->_table->getTableName())
-            ->where("id = ? ", $id);
+            ->where("id = ?", $id);
         try {
             $row = $select->query()->fetch();
             $row['ingredients'] = $this->getRelations($id);
@@ -189,7 +189,61 @@ class PMS_Sales_Goods
         return $response->addStatus(new PMS_Status($status));
     }
 
-    // Private functions
+    /**
+     *
+     * @param string $code
+     * @return int|bool good id | false if not found
+     */
+    public function getGoodsIdByCode($code)
+    {
+        $select = $this->_table->getAdapter()->select()
+            ->from($this->_table->getTableName())
+            ->where("code = ?", $code);
+        try {
+            $row = $select->query()->fetch();
+            if (!is_array($row)) {
+                return false;
+            }
+        } catch (Exception $e) {
+            if (OSDN_DEBUG) {
+                throw $e;
+            }
+            return false;
+        }
+
+        return $row['id'];
+    }
+
+    /**
+     * Get rows, related to the given goods id
+     *
+     * @param int $goodsId
+     * @return array|bool rows | false if error
+     *
+     */
+    public function getRelations($goodsId)
+    {
+        $expTable = new PMS_Sales_Expendables_Table();
+        $relTable = new PMS_Sales_GoodsExpendables_Table();
+
+        $select = $this->_table->getAdapter()->select();
+        $select->from(array('e' => $expTable->getTableName()))
+            ->join(array('r' => $relTable->getTableName()),
+                    'r.expendables_id=e.id',
+                    array('qty', 'cost' => new Zend_Db_Expr('r.qty * e.price')))
+            ->where('r.goods_id = ?', $goodsId);
+
+        try {
+            $rows = $select->query()->fetchAll();
+        } catch (Exception $e) {
+            if (OSDN_DEBUG) {
+                throw $e;
+            }
+            return false;
+        }
+
+        return $rows;
+    }
 
     /**
      * Delete relations by the given goods id
@@ -202,28 +256,6 @@ class PMS_Sales_Goods
     {
         $table = new PMS_Sales_GoodsExpendables_Table();
         return $table->delete(array('goods_id = ?' => $goodsId));
-    }
-
-    /**
-     * Get rows, related to the given goods id
-     *
-     * @param int $goodsId
-     * @return array rows
-     *
-     */
-    private function getRelations($goodsId)
-    {
-        $expTable = new PMS_Sales_Expendables_Table();
-        $relTable = new PMS_Sales_GoodsExpendables_Table();
-
-        $select = $this->_table->getAdapter()->select();
-        $select->from(array('e' => $expTable->getTableName()))
-               ->join(array('r' => $relTable->getTableName()),
-                        'r.expendables_id=e.id',
-                        array('qty', 'cost' => new Zend_Db_Expr('r.qty * e.price')))
-               ->where('r.goods_id = ?', $goodsId);
-
-        return $select->query()->fetchAll();
     }
 
     /**

@@ -37,7 +37,7 @@ class PMS_DbfImport
         $rows = array();
         for ($i = 0; $i < $this->dbf_num_rec; $i++) {
             if ($row = $this->getRowAssoc($i)) {
-                array_push($rows, $row);
+                $rows[] = $row;
             }
         }
 
@@ -48,12 +48,94 @@ class PMS_DbfImport
     }
 
     /**
-     * Calculate the number of positions from rows array
+     * Calculate the expendables by goods array
      *
      * @param array
      * @return array
      */
     public function calculate($rows) {
+
+        /*
+         * Goods status:
+         *
+         * 0 = ОК
+         * 1 = No ingredients assigned
+         * 2 = Not exist in db
+         *
+         */
+
+        foreach ($rows as $row) {
+            if (empty($result[$row['CODE']])) {
+                $result[$row['CODE']] = array(
+                    'CODE'  => $row['CODE'],
+                    'NAME'  => $row['NAME'],
+                    'COUNT' => intval($row['COUNT']),
+                    'SUMMA' => floatval($row['SUMMA'] * $row['COUNT'])
+                );
+            } else {
+                $result[$row['CODE']]['COUNT'] += intval($row['COUNT']);
+                $result[$row['CODE']]['SUMMA'] += floatval($row['SUMMA']);
+            }
+        }
+
+        $goodsRes = array_values($result);
+
+        $goodsClass = new PMS_Sales_Goods();
+
+        $expRes = array();
+        foreach ($goodsRes as &$row) {
+
+            $row['status'] = 0;
+
+            $goodsId = $goodsClass->getGoodsIdByCode($row['CODE']);
+
+            if ($goodsId === false) {
+                $row['status'] = 2;
+                continue;
+            }
+            $expendables = $goodsClass->getRelations($goodsId);
+            if (!is_array($expendables) || empty($expendables)) {
+                $row['status'] = 1;
+                continue;
+            }
+
+            foreach ($expendables as $exp) {
+
+                if (empty($expRes[$exp['id']])) {
+                    $expRes[$exp['id']] = array(
+                        'id'        => $exp['id'],
+                        'name'      => $exp['name'],
+                        'measure'   => $exp['measure'],
+                        'qty'       => intval($exp['qty'] * $row['COUNT']),
+                        'price'     => $exp['price'],
+                        'cost'      => floatval($exp['cost'] * $row['COUNT'])
+                    );
+                } else {
+                    $expRes[$exp['id']]['qty'] += intval($exp['qty'] * $row['COUNT']);
+                    $expRes[$exp['id']]['cost'] += floatval($exp['cost'] * $row['COUNT']);
+                }
+            }
+        }
+
+        foreach ($goodsRes as &$row) {
+            $row = array_values($row);
+        }
+
+        $expRes = array_values($expRes);
+        foreach ($expRes as &$row) {
+            $row = array_values($row);
+        }
+
+        return array('goods' => $goodsRes, 'expendables' => $expRes);
+    }
+
+    /**
+     * Calculate the number of positions from rows array
+     *
+     * @param array
+     * @return array
+     */
+    public function calculateGoods($rows) {
 
         $result = array();
 
@@ -71,12 +153,7 @@ class PMS_DbfImport
             }
         }
 
-        $finalResult = array();
-        foreach ($result as $row) {
-            $finalResult[] = array_values($row);
-        }
-
-        return $finalResult;
+        return $result;
     }
 
     /**

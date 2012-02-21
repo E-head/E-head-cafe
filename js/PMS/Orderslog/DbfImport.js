@@ -40,9 +40,24 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         
         this.resultGrid = new Ext.grid.GridPanel({
             title: 'Продукция',
-            height: 150,
+            height: 250,
             viewConfig: {
-                autoFill: true
+                autoFill: true,
+                getRowClass: function(record) {
+                    
+                //  Goods status:
+                //  0 = ОК
+                //  1 = No ingredients assigned
+                //  2 = Not exist in db
+                    
+                    switch (record.get('status')) {
+                        case 2: 
+                            return 'x-row-error';
+                        case 1:
+                            return 'x-row-expired';
+                        default:
+                    }
+                }
             },
             cm: new Ext.grid.ColumnModel([{
                 header: 'Код',
@@ -69,13 +84,29 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
                     {name: 'CODE'},
                     {name: 'NAME'},
                     {name: 'COUNT', type: 'int'},
-                    {name: 'SUMMA', type: 'float'}
+                    {name: 'SUMMA', type: 'float'},
+                    {name: 'status', type: 'int'}
                 ]
-            })
+            }),
+//            tbar: new Ext.Toolbar({
+//                items: [' '],
+                plugins: [new xlib.Legend.Plugin({
+                    strategy: 'header',
+                    items: [{
+                        color: '#FF9999',
+                        text: 'Позиция отсутствует в базе'
+                    }, {
+                        color: '#FFFF99',
+                        text: 'Не заданы расходные материалы'
+                    }]
+                })]
+//            })
         });
         
         this.calcGrid = new Ext.grid.GridPanel({
             title: 'Расходные материалы',
+            border: false,
+            cls: 'x-border-bottom x-border-left x-border-right',
             height: 250,
             viewConfig: {
                 autoFill: true
@@ -87,8 +118,7 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
                 width: 40
             }, {
                 header: 'Наименование',
-                dataIndex: 'name',
-                id: this.autoExpandColumn
+                dataIndex: 'name'
             }, {
                 header: 'Ед. измерения',
                 dataIndex: 'measure',
@@ -102,7 +132,6 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
                 header: 'Цена',
                 dataIndex: 'price',
                 xtype: 'numbercolumn',
-                format: '0.000,00/i',
                 width: 40,
                 align: 'right'
             }, {
@@ -110,11 +139,10 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
                 dataIndex: 'cost',
                 align: 'right',
                 xtype: 'numbercolumn',
-                format: '0.000,00/i',
                 width: 40
             }]),
             ds: new Ext.data.ArrayStore({
-                idProperty: 'CODE',
+                idProperty: 'id',
                 fields: [
                     {name: 'id'},
                     {name: 'name'},
@@ -160,14 +188,19 @@ PMS.Orderslog.DbfImport = Ext.extend(Ext.Window, {
         if (!o.success) {
             this.onFailure();
         }
-        this.resultGrid.getStore().loadData(o.data);
+        this.resultGrid.getStore().loadData(o.data.goods);
+        this.calcGrid.getStore().loadData(o.data.expendables);
         
-        // Calculate and add the summary row
+        // Calculate and add the summary rows
+        
         this.resultGrid.getStore().add(new (this.resultGrid.getStore()).recordType({
             CODE: '<b>Итого</b>',
-            NAME: '',
-            COUNT: '',
             SUMMA: this.resultGrid.getStore().sum('SUMMA')
+        }, ' '));
+
+        this.calcGrid.getStore().add(new (this.calcGrid.getStore()).recordType({
+            name: '<b>Итого</b>',
+            cost: this.calcGrid.getStore().sum('cost')
         }, ' '));
     }
 });

@@ -167,12 +167,6 @@ PMS.Menu = function(params) {
                  window.open(link('fixed-assets', 'report', 'index', {}, 'html'));
             }
         }]
-	}, {
-        text: 'Импорт',
-        iconCls: 'work_schd-icon',
-        handler: function() {
-            new PMS.Orderslog.DbfImport();
-        }
     }, ' ', ' ', '-', '->', {
 		text: 'Менеджер доступа',
 		iconCls: 'accounts_manager-icon',

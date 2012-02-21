@@ -85,7 +85,13 @@ PMS.Sales.Goods.List = Ext.extend(Ext.grid.GridPanel, {
             iconCls: 'add',
             handler: this.add.createDelegate(this),
             hidden: !this.permissions
-        }, this.filtersPlugin.getSearchField()]; 
+        }, this.filtersPlugin.getSearchField(), {
+            text: 'Импорт',
+            iconCls: 'work_schd-icon',
+            handler: function() {
+                new PMS.Orderslog.DbfImport();
+            }
+        }]; 
         
         this.bbar = new xlib.PagingToolbar({
             store: this.ds,
