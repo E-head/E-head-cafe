@@ -146,7 +146,7 @@ class PMS_Sales_Goods
                )))
                ->group('g.id');
 
-        $plugin = new OSDN_Db_Plugin_Select($this->_table, $select, array('name'));
+        $plugin = new OSDN_Db_Plugin_Select($this->_table, $select, array('g.name' => 'name'));
         $plugin->parse($params);
         $status = null;
         try {
