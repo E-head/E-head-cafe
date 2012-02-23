@@ -53,7 +53,8 @@ class PMS_DbfImport
      * @param array
      * @return array
      */
-    public function calculate($rows) {
+    public function calculate($rows)
+    {
 
         /*
          * Goods status:
@@ -64,38 +65,33 @@ class PMS_DbfImport
          *
          */
 
-        foreach ($rows as $row) {
-            if (empty($result[$row['CODE']])) {
-                $result[$row['CODE']] = array(
-                    'CODE'  => $row['CODE'],
-                    'NAME'  => $row['NAME'],
-                    'COUNT' => intval($row['COUNT']),
-                    'SUMMA' => floatval($row['SUMMA'] * $row['COUNT'])
-                );
-            } else {
-                $result[$row['CODE']]['COUNT'] += intval($row['COUNT']);
-                $result[$row['CODE']]['SUMMA'] += floatval($row['SUMMA']);
-            }
-        }
-
-        $goodsRes = array_values($result);
-
         $goodsClass = new PMS_Sales_Goods();
 
-        $expRes = array();
-        foreach ($goodsRes as &$row) {
+        $goodsRes   = array();
+        $expRes     = array();
 
-            $row['status'] = 0;
+        foreach ($rows as $row) {
 
-            $goodsId = $goodsClass->getGoodsIdByCode($row['CODE']);
+            $goodsRow = array(
+                'CODE'      => $row['CODE'],
+                'NAME'      => $row['NAME'],
+                'COUNT'     => intval($row['COUNT']),
+                'SUMMA'     => floatval($row['SUMMA']),
+                'status'    => 0
+            );
+
+            $goodsId = $goodsClass->getGoodsIdByCode($goodsRow['CODE']);
 
             if ($goodsId === false) {
-                $row['status'] = 2;
+                $goodsRow['status'] = 2;
+                $goodsRes[] = array_values($goodsRow);
                 continue;
             }
+
             $expendables = $goodsClass->getRelations($goodsId);
             if (!is_array($expendables) || empty($expendables)) {
-                $row['status'] = 1;
+                $goodsRow['status'] = 1;
+                $goodsRes[] = array_values($goodsRow);
                 continue;
             }
 
@@ -106,19 +102,17 @@ class PMS_DbfImport
                         'id'        => $exp['id'],
                         'name'      => $exp['name'],
                         'measure'   => $exp['measure'],
-                        'qty'       => intval($exp['qty'] * $row['COUNT']),
+                        'qty'       => intval($exp['qty'] * $goodsRow['COUNT']),
                         'price'     => $exp['price'],
-                        'cost'      => floatval($exp['cost'] * $row['COUNT'])
+                        'cost'      => floatval($exp['cost'] * $goodsRow['COUNT'])
                     );
                 } else {
-                    $expRes[$exp['id']]['qty'] += intval($exp['qty'] * $row['COUNT']);
-                    $expRes[$exp['id']]['cost'] += floatval($exp['cost'] * $row['COUNT']);
+                    $expRes[$exp['id']]['qty'] += intval($exp['qty'] * $goodsRow['COUNT']);
+                    $expRes[$exp['id']]['cost'] += floatval($exp['cost'] * $goodsRow['COUNT']);
                 }
             }
-        }
 
-        foreach ($goodsRes as &$row) {
-            $row = array_values($row);
+            $goodsRes[] = array_values($goodsRow);
         }
 
         $expRes = array_values($expRes);
@@ -127,33 +121,6 @@ class PMS_DbfImport
         }
 
         return array('goods' => $goodsRes, 'expendables' => $expRes);
-    }
-
-    /**
-     * Calculate the number of positions from rows array
-     *
-     * @param array
-     * @return array
-     */
-    public function calculateGoods($rows) {
-
-        $result = array();
-
-        foreach ($rows as $row) {
-            if (empty($result[$row['CODE']])) {
-                $result[$row['CODE']] = array(
-                    'CODE'  => $row['CODE'],
-                    'NAME'  => $row['NAME'],
-                    'COUNT' => intval($row['COUNT']),
-                    'SUMMA' => floatval($row['SUMMA'])
-                );
-            } else {
-                $result[$row['CODE']]['COUNT'] += intval($row['COUNT']);
-                $result[$row['CODE']]['SUMMA'] += floatval($row['SUMMA']);
-            }
-        }
-
-        return $result;
     }
 
     /**
