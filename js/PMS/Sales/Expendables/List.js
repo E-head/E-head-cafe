@@ -34,6 +34,7 @@ PMS.Sales.Expendables.List = Ext.extend(Ext.grid.GridPanel, {
         }, {
             header: 'Наименование',
             dataIndex: 'name',
+            sortable: true,
             id: this.autoExpandColumn
         }, {
             header: 'Ед. измерения',
@@ -47,8 +48,6 @@ PMS.Sales.Expendables.List = Ext.extend(Ext.grid.GridPanel, {
             align: 'right'
         }]);
         
-        this.cm.defaultSortable = true; 
-
         this.sm = new Ext.grid.RowSelectionModel({singleSelect: true});
 
         this.ds = new Ext.data.JsonStore({
@@ -58,7 +57,7 @@ PMS.Sales.Expendables.List = Ext.extend(Ext.grid.GridPanel, {
 	        remoteSort: true,
 	        root: 'data',
             sortInfo: {
-                field: 'id',
+                field: 'name',
                 direction: 'ASC'
             },
 	        fields: [
