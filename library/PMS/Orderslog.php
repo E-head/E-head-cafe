@@ -24,12 +24,6 @@ class PMS_Orderslog
             'inkasso_dst'   => array(array('StringLength', 1, 4096), 'presence' => 'required')
         ), $params);
 
-//        $ff = new Zend_Validate_Float('en');
-//        var_dump((string)(($f->summ_start + $f->summ_income) - $f->summ_inkasso));
-//        var_dump($f->summ_rest);
-//        var_dump($f->summ_rest <> (string)($f->summ_start + $f->summ_income) - $f->summ_inkasso);
-//        die;
-
         $response = new OSDN_Response();
         $response->addInputStatus($f);
         if ($response->hasNotSuccess()) {
