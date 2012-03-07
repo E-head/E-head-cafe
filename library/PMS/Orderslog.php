@@ -11,7 +11,9 @@ class PMS_Orderslog
 
     public function add(array $params)
     {
+
         $f = new OSDN_Filter_Input(array(
+            '*'             => 'StringTrim'
         ), array(
             'date'          => array(array('StringLength', 0, 10), 'presence' => 'required'),
             'staff_id'      => array('Id', 'presence' => 'required'),
@@ -22,6 +24,12 @@ class PMS_Orderslog
             'inkasso_dst'   => array(array('StringLength', 1, 4096), 'presence' => 'required')
         ), $params);
 
+//        $ff = new Zend_Validate_Float('en');
+//        var_dump((string)(($f->summ_start + $f->summ_income) - $f->summ_inkasso));
+//        var_dump($f->summ_rest);
+//        var_dump($f->summ_rest <> (string)($f->summ_start + $f->summ_income) - $f->summ_inkasso);
+//        die;
+
         $response = new OSDN_Response();
         $response->addInputStatus($f);
         if ($response->hasNotSuccess()) {
@@ -29,13 +37,13 @@ class PMS_Orderslog
         }
 
         // Check inkasso
-        if ($f->summ_inkasso > ($f->summ_start + $f->summ_income)) {
+        if ($f->summ_inkasso > (string)($f->summ_start + $f->summ_income)) {
             return $response->addStatus(new PMS_Status(
                 PMS_Status::INPUT_PARAMS_INCORRECT, 'summ_inkasso'));
         }
 
         // Check rest
-        if ($f->summ_rest <> ($f->summ_start + $f->summ_income) - $f->summ_inkasso) {
+        if ($f->summ_rest <> (string)(($f->summ_start + $f->summ_income) - $f->summ_inkasso)) {
             return $response->addStatus(new PMS_Status(
                 PMS_Status::INPUT_PARAMS_INCORRECT, 'summ_rest'));
         }
