@@ -76,7 +76,10 @@ PMS.Sales.Goods.List = Ext.extend(Ext.grid.GridPanel, {
 	    });
         
         this.filtersPlugin = new Ext.grid.GridFilters({
-            filters: [{type: 'string',  dataIndex: 'name'}]}
+            filters: [
+                {type: 'string',  dataIndex: 'code'},
+                {type: 'string',  dataIndex: 'name'}
+            ]}
         );
         
         this.tbar = [{
