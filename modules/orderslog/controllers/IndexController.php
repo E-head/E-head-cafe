@@ -52,6 +52,7 @@ class Orderslog_IndexController extends OSDN_Controller_Action
     		$this->view->success = true;
     	    $this->view->data = $response->getRowset();
     	    $this->view->totalCount = $response->totalCount;
+    	    $this->view->rest = $response->rest;
     	} else {
     		$this->_collectErrors($response);
     	}
