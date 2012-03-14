@@ -8,6 +8,8 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
     
     border: false,
     
+    rest: 0,
+    
     loadMask: {msg: 'Загрузка...'},
     
     stripeRows: true,
@@ -112,6 +114,15 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
 	        ]
 	    });
         
+        this.ds.on('load', function(store, records, options) {
+            var rest = 0;
+            try {
+                rest = store.reader.jsonData.rest
+            } catch(e) {
+            }
+            this.rest = rest;
+        }, this);
+        
         this.tbar = [{
             text: 'Добавить',
             iconCls: 'add',
@@ -153,6 +164,15 @@ PMS.Orderslog.List = Ext.extend(Ext.grid.GridPanel, {
     add: function(g, rowIndex) {
 		var form = new PMS.Orderslog.Form({permissions: this.permissions});
 		var w = form.showInWindow({title: 'Выручка за день'});
+		form.on('ready', function() {
+            try {
+                var summ_startField = form.getForm().findField('summ_start');
+                if (summ_startField && summ_startField.setValue) {
+                    summ_startField.setValue(this.rest);
+                }
+            } catch(e) {
+            }
+        }, this);
 		form.on('saved', function() {this.getStore().reload(); w.close();}, this);
 		w.show();
 	},

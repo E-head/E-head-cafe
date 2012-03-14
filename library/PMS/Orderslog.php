@@ -113,6 +113,7 @@ class PMS_Orderslog
         try {
             $response->setRowset($select->query()->fetchAll());
             $response->totalCount = $plugin->getTotalCount();
+            $response->rest = $this->_getLastRest();
             $status = PMS_Status::OK;
         } catch (Exception $e) {
             $status = PMS_Status::DATABASE_ERROR;
@@ -121,5 +122,23 @@ class PMS_Orderslog
             }
         }
         return $response->addStatus(new PMS_Status($status));
+    }
+
+    private function _getLastRest()
+    {
+        $rest = 0;
+
+        $select = $this->_table->getAdapter()->select();
+        $select->from(array('f' => $this->_table->getTableName()), 'summ_rest')
+        ->order('created DESC')->limit(1);
+
+        try {
+            $rest = $select->query()->fetchColumn(0);
+        } catch (Exception $e) {
+            if (OSDN_DEBUG) {
+                throw $e;
+            }
+        }
+        return $rest;
     }
 }
