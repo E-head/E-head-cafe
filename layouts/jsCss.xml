@@ -134,6 +134,9 @@
         <script src="/js/PMS/Staff/HR/Table.js"/>
         <script src="/js/PMS/Staff/HR/Layout.js"/>
         
+        <script src="/js/PMS/Customers/List.js"/>
+        <script src="/js/PMS/Customers/Form.js"/>
+        
         <!-- Modules -->
         
         <script src="/js/PMS/menu.js"/>

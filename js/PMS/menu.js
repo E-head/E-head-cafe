@@ -90,6 +90,19 @@ PMS.Menu = function(params) {
             });
         }
     }, {
+        text: 'Поставщики',
+        hidden: !acl.isView('customers'),
+        iconCls: 'customers-icon',
+        handler: function() {
+            PMS.System.Layout.getTabPanel().add({
+                title: 'Поставщики',
+                iconCls: 'customers-icon',
+                entity: 'customers',
+                xtype: 'PMS.Customers.List',
+                id: 'PMS.Customers.List'
+            });
+        }
+    }, {
         /*
         text: 'Заявки на снабжение',
         iconCls: 'suppliers-icon',
