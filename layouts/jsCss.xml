@@ -140,6 +140,7 @@
         <!-- Modules -->
         
         <script src="/js/PMS/menu.js"/>
+        <script src="/js/extensions.js"/>
         <script src="/js/start.js"/>
         
         <!-- localization files -->
