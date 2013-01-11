@@ -12,10 +12,11 @@ class PMS_Sales_Goods
         $f = new OSDN_Filter_Input(array(
             '*'             => 'StringTrim'
         ), array(
-            'code'      => array(array('StringLength', 1, 4), 'presence' => 'required'),
-            'name'      => array(array('StringLength', 1, 250), 'presence' => 'required'),
-            'price'     => array(array('Float', 'en'), 'presence' => 'required'),
-            'measure'   => array(array('StringLength', 1, 50), 'presence' => 'required')
+            'code'          => array(array('StringLength', 1, 4), 'presence' => 'required'),
+            'name'          => array(array('StringLength', 1, 250), 'presence' => 'required'),
+            'price'         => array(array('Float', 'en'), 'presence' => 'required'),
+            'measure'       => array(array('StringLength', 1, 50), 'presence' => 'required'),
+            'loss_margin'   => array('Int', 'presence' => 'required')
         ), $params);
 
         $response = new OSDN_Response();
@@ -50,11 +51,12 @@ class PMS_Sales_Goods
         $f = new OSDN_Filter_Input(array(
             '*'             => 'StringTrim'
         ), array(
-            'id'        => array('Int', 'presence' => 'required'),
-            'code'      => array(array('StringLength', 1, 4), 'presence' => 'required'),
-            'name'      => array(array('StringLength', 1, 250), 'presence' => 'required'),
-            'price'     => array(array('Float', 'en'), 'presence' => 'required'),
-            'measure'   => array(array('StringLength', 1, 50), 'presence' => 'required')
+            'id'            => array('Int', 'presence' => 'required'),
+            'code'          => array(array('StringLength', 1, 4), 'presence' => 'required'),
+            'name'          => array(array('StringLength', 1, 250), 'presence' => 'required'),
+            'price'         => array(array('Float', 'en'), 'presence' => 'required'),
+            'measure'       => array(array('StringLength', 1, 50), 'presence' => 'required'),
+            'loss_margin'   => array('Int', 'presence' => 'required')
         ), $params);
 
         $response = new OSDN_Response();
@@ -138,12 +140,20 @@ class PMS_Sales_Goods
         $select = $this->_table->getAdapter()->select();
         $select->from(array('g' => $this->_table->getTableName()), array())
                ->joinLeft(array('r' => $relTable->getTableName()),
-                        'r.goods_id=g.id', array())
+                        'r.goods_id=g.id', array()
+               )
                ->joinLeft(array('e' => $expTable->getTableName()),
-                        'r.expendables_id=e.id', array())
-               ->columns(array('g.id', 'g.code', 'g.name', 'g.price', 'g.measure',
-                    'total_cost' => new Zend_Db_Expr('SUM(r.qty * e.price)'
-               )))
+                        'r.expendables_id=e.id', array()
+               )
+               ->columns(
+                    array('g.id', 'g.code', 'g.name', 'g.price', 'g.measure',
+                        'total_cost' => new Zend_Db_Expr('SUM(
+                                  (r.qty * e.price)
+                                + ((r.qty * e.price) / 100 * g.loss_margin)
+                            )'
+                        )
+                    )
+               )
                ->group('g.id');
 
         $plugin = new OSDN_Db_Plugin_Select($this->_table, $select, array(

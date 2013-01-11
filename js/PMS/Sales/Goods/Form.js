@@ -6,6 +6,8 @@ PMS.Sales.Goods.Form = Ext.extend(xlib.form.FormPanel, {
 
     permissions: true,
     
+    labelWidth: 200,
+    
     defaults: {
         xtype: 'textfield',
         allowBlank: false,
@@ -14,11 +16,30 @@ PMS.Sales.Goods.Form = Ext.extend(xlib.form.FormPanel, {
     
     initComponent: function() {
         
+        this.priceField = new Ext.form.NumberField({
+            fieldLabel: 'Цена, р',
+            allowNegative: false,
+            name: 'price'
+        });
+        
+        this.lossMarginField = new Ext.form.NumberField({
+            fieldLabel: 'Наценка на себестоимость, %',
+            allowNegative: false,
+            allowDeciminals: false,
+            name: 'loss_margin'
+        });
+        
         this.costField = new Ext.form.DisplayField({
             fieldLabel: 'Себестоимость',
             name: 'cost',
             style: 'line-height: 20px;'
-        })
+        });
+        
+        this.marginField = new Ext.form.DisplayField({
+            fieldLabel: 'Наценка на продукт',
+            name: 'margin',
+            style: 'line-height: 20px;'
+        });
         
         this.items = [{
             name: 'id',
@@ -30,21 +51,13 @@ PMS.Sales.Goods.Form = Ext.extend(xlib.form.FormPanel, {
             fieldLabel: 'Наименование',
             name: 'name'
         }, {
-            fieldLabel: 'Цена',
-            name: 'price',
-            xtype: 'numberfield'
-        }, {
             xtype: 'PMS.Storage.Measures.ComboBox',
             fieldLabel: 'Ед. измерения',
             name: 'measure',
             hiddenName: 'measure'
-        }, this.costField];
+        }, this.priceField, this.lossMarginField, this.costField, this.marginField];
         
         PMS.Sales.Goods.Form.superclass.initComponent.apply(this, arguments);
-    },
-    
-    setCost: function(summ) {
-        this.costField.setValue(summ);
     }
 });
 

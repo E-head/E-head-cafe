@@ -51,6 +51,14 @@ PMS.Sales.Goods.List = Ext.extend(Ext.grid.GridPanel, {
             xtype: 'numbercolumn',
             width: 120,
             align: 'right'
+        }, {
+            header: 'Наценка, %',
+            width: 120,
+            renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                var price = record.get('price'),
+                    summTotal = record.get('total_cost');
+                return Math.round((price - summTotal) / (summTotal/100));
+            }
         }]);
         
         this.sm = new Ext.grid.RowSelectionModel({singleSelect: true});

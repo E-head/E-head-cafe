@@ -32,7 +32,7 @@ PMS.Sales.Goods.Edit = Ext.extend(Ext.Window, {
         
         this.gridPanel = new PMS.Sales.Goods.Ingredients({
             region: 'south',
-            height: 300
+            height: 250
         }); 
         
         this.items = [this.formPanel, this.gridPanel];
@@ -53,21 +53,38 @@ PMS.Sales.Goods.Edit = Ext.extend(Ext.Window, {
         
         this.show();
         
-        var calcCost = function(store) {
-            this.formPanel.setCost(Ext.util.Format.number(store.sum('cost'), '0.000,00/i'));
-        }
-        
         this.gridPanel.getStore().on({
-            add: calcCost,
-            remove: calcCost,
-            update: calcCost,
-            load: calcCost,
+            add: this.recalculate,
+            remove: this.recalculate,
+            update: this.recalculate,
+            load: this.recalculate,
             scope: this
         });
+        
+        this.formPanel.priceField.on('change', this.recalculate, this);
+        this.formPanel.lossMarginField.on('change', this.recalculate, this);
         
         if (this.sid) {
             this.loadData(this.sid);
         }
+    },
+    
+    recalculate: function() {
+        
+        var store = this.gridPanel.getStore(),
+            summ = store.sum('cost'),
+            price = this.formPanel.getForm().findField('price').getValue(),
+            lossMargin = this.formPanel.getForm().findField('loss_margin').getValue();
+        
+        summTotal = summ + (summ / 100 * lossMargin);  
+
+        var val = Ext.util.Format.number(summTotal, '0.000,00/i') 
+            + 'р. (' + Ext.util.Format.number(summ, '0.000,00/i') 
+            + 'р. + ' + Math.floor(lossMargin) + '%)';
+        
+        this.formPanel.costField.setValue(val);
+        this.formPanel.marginField.setValue(
+            Math.round((price - summTotal) / (summTotal/100)) + '%');
     },
     
     saveData: function() {

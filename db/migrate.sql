@@ -1,6 +1,8 @@
--- TODO: Delete the table `customers` (has relations with table `orders`)
+
 
 -- all below applied --
+
+ALTER TABLE  `sales_goods` ADD  `loss_margin` INT NOT NULL DEFAULT  '0';
 
 CREATE TABLE IF NOT EXISTS `orderslog` (
   `id` int(10) unsigned NOT NULL auto_increment,
