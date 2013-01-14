@@ -23,7 +23,7 @@ PMS.Sales.Goods.Form = Ext.extend(xlib.form.FormPanel, {
         });
         
         this.lossMarginField = new Ext.form.NumberField({
-            fieldLabel: 'Наценка на себестоимость, %',
+            fieldLabel: 'Размер списания, %',
             allowNegative: false,
             allowDeciminals: false,
             name: 'loss_margin'
